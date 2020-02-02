@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Blog Home{% endblock %}
+{% block content %}
+
+    <h1 class="text-center mt-2 ">Blog Post</h1>
+<hr>
+
+            <div class="row">
+                {% for posts in post %}
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <img style="height:300px;width:100%;" class="card-img-top" src="{{ posts.img.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <a href="{% url 'pdetails' posts.id %}"><h4>{{ posts.ptitle }}</h4></a>
+                            <p class="card-text">{{ posts.summery }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-success" href="{% url 'pdetails' posts.id %}">Read More..</a>
+                                </div>
+                                <small class="text-muted">{{ posts.up_date }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+{% endblock %}
