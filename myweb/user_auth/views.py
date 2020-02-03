@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login,logout,authenticate
-from django.contrib.auth.forms import UserCreationForm,UserChangeForm
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordChangeForm
 from django.contrib import messages
 
-from .form import RegisterationFrom,EditInfoForm
+from .form import RegisterationFrom,EditInfoForm,ChangePasswordForm
 # Create your views here.
 
 def ulogin(request):
@@ -45,15 +45,25 @@ def usrr_regi(request):
 
 
 def editinfo(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         form = EditInfoForm(request.POST,instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request,'Information update')
-            return redirect('home')
+            messages.success(request,'Information updated')
+            return redirect('profile')
     else:
         form = EditInfoForm(instance=request.user)
         return render(request,'editinfo.html',{'form':form})
 
 def profile(request):
     return render(request,'profile.html')
+
+def change_password(request):
+    form = ChangePasswordForm(data=request.POST,user=request.user)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Successfully password changes')
+        return redirect('editinfo')
+    else:
+        form = ChangePasswordForm(user=request.user)
+        return render(request,'changepassword.html',{'form':form})

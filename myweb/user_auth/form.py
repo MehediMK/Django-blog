@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,UserChangeForm
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordChangeForm
 from django.contrib.auth.models import User
 
 
@@ -33,3 +33,19 @@ class EditInfoForm(UserChangeForm):
         super(EditInfoForm,self).__init__(*args,**kwargs)
         self.fields['username'].widget=forms.TextInput(attrs={'class':'form-control'})
         self.fields['username'].help_text=''
+
+
+
+class ChangePasswordForm(PasswordChangeForm):
+
+    class Meta:
+        model=User
+        fields=('old_password','new_password1','new_password2')
+    def __init__(self,*args,**kwargs):
+        super(ChangePasswordForm,self).__init__(*args,**kwargs)
+        self.fields['old_password'].widget=forms.TextInput(attrs={'class':'form-control','type':'password'})
+        self.fields['old_password'].help_text=''
+        self.fields['new_password1'].widget=forms.TextInput(attrs={'class':'form-control','type':'password'})
+        self.fields['new_password1'].help_text=''
+        self.fields['new_password2'].widget=forms.TextInput(attrs={'class':'form-control','type':'password'})
+        self.fields['new_password2'].help_text=''
